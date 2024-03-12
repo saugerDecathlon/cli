@@ -16,6 +16,9 @@ from datacontract.export.dbt_converter import to_dbt_models_yaml, \
 from datacontract.export.jsonschema_converter import to_jsonschema, to_jsonschema_json
 from datacontract.export.odcs_converter import to_odcs_yaml
 from datacontract.export.protobuf_converter import to_protobuf
+from datacontract.export.great_expectations_converter import to_great_expectations
+
+
 from datacontract.export.rdf_converter import to_rdf, to_rdf_n3
 from datacontract.export.sodacl_converter import to_sodacl_yaml
 from datacontract.imports.sql_importer import import_sql
@@ -254,6 +257,8 @@ class DataContract:
                 return ""
             model_name, model = next(iter(data_contract.models.items()))
             return to_avro_schema_json(model_name, model)
+        if export_format == "great-expectations":
+            return to_great_expectations(data_contract)
         else:
             print(f"Export format {export_format} not supported.")
             return ""

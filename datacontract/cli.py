@@ -126,6 +126,7 @@ class ExportFormat(str, Enum):
     rdf = "rdf"
     avro = "avro"
     protobuf = "protobuf"
+    great_expectations="great-expectations"
 
 
 @app.command()
