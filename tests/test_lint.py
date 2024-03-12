@@ -3,7 +3,7 @@ import logging
 from typer.testing import CliRunner
 
 from datacontract.cli import app
-from datacontract.data_contract import DataContract
+from datacontract.data_contract import DataContract, DataContractSpecification
 
 logging.basicConfig(level=logging.INFO, force=True)
 
@@ -29,7 +29,7 @@ def test_lint_invalid_data_contract():
 
 def test_lint_cli_valid():
     data_contract_file = "examples/lint/valid_datacontract.yaml"
-    expected_output = "🟢 data contract is valid. Run 7 checks."
+    expected_output = "🟢 data contract is valid. Run 9 checks."
 
     result = runner.invoke(app, ["lint", data_contract_file])
 
@@ -54,3 +54,9 @@ def test_lint_custom_schema():
 
     run = data_contract.lint()
     assert run.result == "passed"
+
+
+def test_lint_with_references():
+    data_contract = DataContract(data_contract_file="examples/lint/valid_datacontract_references.yaml",
+                                 inline_definitions=True)
+    DataContractSpecification.model_validate(data_contract.get_data_contract_specification())
